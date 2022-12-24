@@ -104,7 +104,7 @@ namespace ServiceLayer.Controllers
 
         [System.Web.Http.HttpGet]
         [Route("Alumno/Login")]
-        public IHttpActionResult Login([FromBody] ModelLayer.Alumno alumno)
+        public IHttpActionResult Login(ModelLayer.Alumno alumno)
         {
             ModelLayer.Result result = BusinessLayer.Alumno.Login(alumno);
             if (result.Correct)
