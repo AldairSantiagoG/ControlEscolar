@@ -1,0 +1,96 @@
+﻿
+@{
+    ViewBag.Title = "Form";
+}
+
+<h2>Form</h2>
+
+<input class="hidden" id="idAlumno" value="@ViewBag.IdAlumno" />
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <form enctype="multipart/form-data">
+                <label>Nombre</label>
+                <input type="text" value="" id="txtNombre" /><br />
+                <label>Apellido Paterno</label>
+                <input type="text" value="" id="txtApellidoP" /><br />
+                <label>Apellido Materno</label>
+                <input type="text" value="" id="txtApellidoM" /><br />
+            </form>
+        </div>
+        <div class="row">
+            <div class="col-md-1">
+                <input type="button" value="Guardar" class="btn btn-success" id="btnActualizar" />
+            </div>
+            <div class="col-md-1">
+                @Html.ActionLink("Regresar", "Index", "Alumno", htmlAttributes: new { @class = "btn btn-danger" })
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script src="~/Scripts/jquery-3.4.1.js"></script>
+<script>
+
+
+    $(document).ready(function () {
+        /////////////////////////////////
+        var idAlumno = $('#idAlumno').val();
+        console.log(idAlumno);
+        var LlenarForm = function (idAlumno) {
+            $.ajax({
+                type: 'GET',
+                url: 'http://localhost:6004/Alumno/GetById/{id}',
+                dataType: 'json',
+                data: { id: idAlumno },
+                success: function (response) {
+                    console.log(response);
+                    $('#txtNombre').val(response.Object.NombreAlumno);
+                    $('#txtApellidoP').val(response.Object.ApellidoPaterno);
+                    $('#txtApellidoM').val(response.Object.ApellidoMaterno);
+                },
+                error: function (ex) {
+                    alert('Failed.' + ex);
+                }
+            });
+        }
+
+        if (idAlumno != 0 ) {
+            LlenarForm(idAlumno);
+        }
+
+        $('#btnActualizar').click(function () {
+            if (idAlumno > 0) {
+                var AlumnoD = {
+                    IdAlumno: idAlumno,
+                    NombreAlumno :$('#txtNombre').val(),
+                    ApellidoPaterno : $('#txtApellidoP').val(),
+                    ApellidoMaterno : $('#txtApellidoM').val(),
+                }
+                $.ajax({
+                    type: 'POST',
+                    url: 'http://localhost:6004/Alumno/Update/',
+                    dataType: 'json',
+                    data: AlumnoD,
+                    success: function (response) {
+                        console.log(response);
+                        alert("Alumno actualizado");
+                        window.location.href = '@Url.Action("Index", "Alumno")';
+                    },
+                    error: function (ex) {
+                        alert('Failed.' + ex);
+                    }
+                });
+            }
+           
+        });
+
+
+        /////////////////////////////////
+    })
+
+
+
+</script>
