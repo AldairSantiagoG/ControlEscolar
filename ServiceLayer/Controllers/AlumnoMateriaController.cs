@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BusinessLayer;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -9,11 +10,25 @@ namespace ServiceLayer.Controllers
 {
     public class AlumnoMateriaController : ApiController
     {
-        [HttpGet]
-        [Route("AlumnoMateria/GetAll")]
-        public IHttpActionResult GetAll()
+        [HttpPost]
+        [Route("AlumnoMateria/Add/")]
+        public IHttpActionResult Add([FromBody] ModelLayer.AlumnoMateria alumnoMateria)
         {
-            ModelLayer.Result result = BusinessLayer.Alumno.GetAll();
+            ModelLayer.Result result = BusinessLayer.AlumnoMateria.Add(alumnoMateria);
+            if (result.Correct)
+            {
+                return Ok(result);
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+        [HttpGet]
+        [Route("AlumnoMateria/Delete/{id}")]
+        public IHttpActionResult Delete(int idAlumnoMateria)
+        {
+            ModelLayer.Result result = BusinessLayer.AlumnoMateria.Delete(idAlumnoMateria);
             if (result.Correct)
             {
                 return Ok(result);
@@ -27,7 +42,7 @@ namespace ServiceLayer.Controllers
         // GET: api/AlumnoMateria/5
         [HttpGet]
         [Route("AlumnoMateria/MateriasAsignadas/{id}")]
-        public IHttpActionResult Get(int id)
+        public IHttpActionResult MateriasAsignadas(int id)
         {
             ModelLayer.Result result = BusinessLayer.AlumnoMateria.MateriasGetAsignadas(id);
             if (result.Correct)
@@ -40,10 +55,10 @@ namespace ServiceLayer.Controllers
             }
         }
         [HttpGet]
-        [Route("AlumnoMateria/Alumno/{id}")]
-        public IHttpActionResult GetAlumno(int id)
+        [Route("AlumnoMateria/MateriasNoAsignadas/{id}")]
+        public IHttpActionResult MateriasNoAsignadas(int id)
         {
-            ModelLayer.Result result = BusinessLayer.Alumno.GetById(id);
+            ModelLayer.Result result = BusinessLayer.AlumnoMateria.MateriasGetNoAsignadas(id);
             if (result.Correct)
             {
                 return Ok(result);

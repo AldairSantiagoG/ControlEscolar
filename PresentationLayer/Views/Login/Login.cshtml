@@ -1,0 +1,58 @@
+﻿
+@{
+    Layout = null;
+    ViewBag.Title = "Login";
+}
+<link href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+<link href="~/Scripts/Login/LoginCss.css" rel="stylesheet" />
+<script src="~/Scripts/Login/LoginJS.js"></script>
+<div class="container">
+    <div class="login-container">
+        <div id="output"></div>
+        <div class="avatar"></div>
+        <div class="form-box">
+            <form action="" method="">
+                <input name="text" type="text" placeholder="Nombre Alumno" id="txtNombre">
+                <input type="text" placeholder="Apellido Paterno" id="txtApellido">
+                <button class="btn btn-info btn-block login" type="button" id="btnLogin">Login</button>
+            </form>
+        </div>
+    </div>
+
+</div>
+
+<script src="~/Scripts/jquery-3.4.1.js"></script>
+<script>
+    $(document).ready(function () {
+    $('#btnLogin').click(function () {
+        var Alumno = {
+            NombreAlumno: $('#txtNombre').val(),
+            ApellidoPaterno: $('#txtApellido').val()
+        }
+
+        $.ajax({
+            type: 'POST',
+            url: 'http://localhost:6004/Alumno/Login/',
+            dataType: 'json',
+            data: Alumno,
+            success: function (response) {
+                console.log(response);
+                $("#output").removeClass(' alert-danger');
+                /* window.location.href = 'http://localhost:5627/Home/Index';*/
+                window.location.href = '@Url.Action("Index", "Home")?Autenticar=' + true;
+
+                },
+                error: function (ex) {
+                $("#output").addClass("alert alert-danger animated fadeInUp").html("Error compruebe información de usuario");
+                }
+                });
+
+
+
+                });
+                })
+
+</script>

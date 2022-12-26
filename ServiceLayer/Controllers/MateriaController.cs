@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -29,9 +30,17 @@ namespace ServiceLayer.Controllers
         [System.Web.Http.HttpPost]
         [Route("Materia/Add")]
 
-        public IHttpActionResult Add([FromBody] ModelLayer.AlumnoMateria alumnoMateria)
+        public IHttpActionResult Add([FromBody]  ModelLayer.Materia materia)
         {
-            ModelLayer.Result result = BusinessLayer.AlumnoMateria.Add(alumnoMateria);
+
+            char[] validacion = ConfigurationManager.AppSettings["ValidacionMateria"].ToCharArray();
+
+            foreach(char caracter in validacion)
+            {
+                materia.NombreMateria = materia.NombreMateria.Replace(caracter.ToString(), "");
+            }
+
+            ModelLayer.Result result = BusinessLayer.Materia.Add(materia);
 
             if (result.Correct)
             {
@@ -58,9 +67,9 @@ namespace ServiceLayer.Controllers
             }
         }
 
-        [System.Web.Http.HttpPut]
-        [Route("Materia/Update/{id}")]
-        public IHttpActionResult Update(int id, [FromBody] ModelLayer.Materia materia)
+        [System.Web.Http.HttpPost]
+        [Route("Materia/Update/")]
+        public IHttpActionResult Update(ModelLayer.Materia materia)
         {
             ModelLayer.Result result = BusinessLayer.Materia.Update(materia);
             if (result.Correct)
@@ -72,7 +81,7 @@ namespace ServiceLayer.Controllers
                 return NotFound();
             }
         }
-        [System.Web.Http.HttpDelete]
+        [System.Web.Http.HttpGet]
         [Route("Materia/Delete/{id}")]
         public IHttpActionResult Delete(int id)
         {

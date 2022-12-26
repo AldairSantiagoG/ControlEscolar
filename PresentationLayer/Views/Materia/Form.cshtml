@@ -1,0 +1,112 @@
+﻿
+@{
+    ViewBag.Title = "Form";
+}
+
+<h2>Formulario Materias</h2>
+
+
+<input class="hidden" id="idMateria" value="@ViewBag.IdMateria" />
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <form enctype="multipart/form-data">
+                <label>Nombre Materia</label>
+                <input type="text" value="" id="txtNombre" /><br />
+                <label>Costo</label>
+                <input type="text" value="" id="txtCosto" /><br />
+               
+            </form>
+        </div>
+        <div class="row">
+            <div class="col-md-1">
+                <input type="button" value="Guardar" class="btn btn-success" id="btnActualizar" />
+            </div>
+            <div class="col-md-1">
+                @Html.ActionLink("Regresar", "Index", "Materia", htmlAttributes: new { @class = "btn btn-danger" })
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script src="~/Scripts/jquery-3.4.1.js"></script>
+<script>
+
+
+    $(document).ready(function () {
+        /////////////////////////////////
+        var idMateria = $('#idMateria').val();
+        console.log(idMateria);
+        var LlenarForm = function (idMateria) {
+            $.ajax({
+                type: 'GET',
+                url: 'http://localhost:6004/Materia/GetById/{id}',
+                dataType: 'json',
+                data: { id: idMateria },
+                success: function (response) {
+                    console.log(response);
+                    $('#txtNombre').val(response.Object.NombreMateria);
+                    $('#txtCosto').val(response.Object.Costo);
+                },
+                error: function (ex) {
+                    alert('Failed.' + ex);
+                }
+            });
+        }
+
+        if (idMateria != 0 ) {
+            LlenarForm(idMateria);
+        }
+
+        $('#btnActualizar').click(function () {
+            var Materia = {
+                IdMateria: idMateria,
+                NombreMateria: $('#txtNombre').val(),
+                Costo: $('#txtCosto').val()
+            }
+            if (idMateria > 0) {
+
+                $.ajax({
+                    type: 'POST',
+                    url: 'http://localhost:6004/Materia/Update/',
+                    dataType: 'json',
+                    data: Materia,
+                    success: function (response) {
+                        console.log(response);
+                        alert("Materia actualizado");
+                        window.location.href = '@Url.Action("Index", "Materia")';
+                    },
+                    error: function (ex) {
+                        alert('Failed.' + ex);
+                    }
+                });
+            }
+            else {
+                $.ajax({
+                    type: 'POST',
+                    url: 'http://localhost:6004/Materia/Add/',
+                    dataType: 'json',
+                    data: Materia,
+                    success: function (response) {
+                        console.log(response);
+                        alert("Materia registrada");
+                        window.location.href = '@Url.Action("Index", "Materia")';
+                    },
+                    error: function (ex) {
+                        alert("Ocurrio un problema al registrar la materia");
+                        window.location.href = '@Url.Action("Index", "Materia")';
+                    }
+                });
+            }
+
+        });
+
+
+        /////////////////////////////////
+    })
+
+
+
+</script>

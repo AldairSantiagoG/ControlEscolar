@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="ControlEscolarModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="ControlEscolarModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Alumno">
           <Key>
             <PropertyRef Name="IdAlumno" />
@@ -30,7 +30,7 @@
           <Property Name="NombreMateria" Type="varchar" MaxLength="50" />
           <Property Name="Costo" Type="decimal" Precision="18" Scale="0" />
         </EntityType>
-        <Association Name="FK__AlumnoMat__IdAlu__1ED998B2">
+        <Association Name="FK__AlumnoMat__IdAlu__31EC6D26">
           <End Role="Alumno" Type="Self.Alumno" Multiplicity="0..1" />
           <End Role="AlumnoMateria" Type="Self.AlumnoMateria" Multiplicity="*" />
           <ReferentialConstraint>
@@ -42,7 +42,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__AlumnoMat__IdMat__1FCDBCEB">
+        <Association Name="FK__AlumnoMat__IdMat__32E0915F">
           <End Role="Materia" Type="Self.Materia" Multiplicity="0..1" />
           <End Role="AlumnoMateria" Type="Self.AlumnoMateria" Multiplicity="*" />
           <ReferentialConstraint>
@@ -112,17 +112,16 @@
           <EntitySet Name="Alumno" EntityType="Self.Alumno" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AlumnoMateria" EntityType="Self.AlumnoMateria" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Materia" EntityType="Self.Materia" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK__AlumnoMat__IdAlu__1ED998B2" Association="Self.FK__AlumnoMat__IdAlu__1ED998B2">
+          <AssociationSet Name="FK__AlumnoMat__IdAlu__31EC6D26" Association="Self.FK__AlumnoMat__IdAlu__31EC6D26">
             <End Role="Alumno" EntitySet="Alumno" />
             <End Role="AlumnoMateria" EntitySet="AlumnoMateria" />
           </AssociationSet>
-          <AssociationSet Name="FK__AlumnoMat__IdMat__1FCDBCEB" Association="Self.FK__AlumnoMat__IdMat__1FCDBCEB">
+          <AssociationSet Name="FK__AlumnoMat__IdMat__32E0915F" Association="Self.FK__AlumnoMat__IdMat__32E0915F">
             <End Role="Materia" EntitySet="Materia" />
             <End Role="AlumnoMateria" EntitySet="AlumnoMateria" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="ControlEscolarModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -197,18 +196,18 @@
             <Parameter Name="ApellidoMaterno" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="AlumnoDelete">
-            <Parameter Name="IdAlumno" Mode="In" Type="Int32" />
+          <Parameter Name="IdAlumno" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="AlumnoGetAll" ReturnType="Collection(ControlEscolarModel.AlumnoGetAll_Result)" />
           <FunctionImport Name="AlumnoGetById" ReturnType="Collection(ControlEscolarModel.AlumnoGetById_Result)">
-            <Parameter Name="IdAlumno" Mode="In" Type="Int32" />
+          <Parameter Name="IdAlumno" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="AlumnoLogin" ReturnType="Collection(ControlEscolarModel.AlumnoLogin_Result)">
             <Parameter Name="NombreAlumno" Mode="In" Type="String" />
             <Parameter Name="ApellidoPaterno" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="AlumnoMateriaDelete">
-            <Parameter Name="IdAlumnoMateria" Mode="In" Type="Int32" />
+          <Parameter Name="IdAlumnoMateria" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="AlumnoMateriasAdd">
             <Parameter Name="IdAlumno" Mode="In" Type="Int32" />
@@ -225,17 +224,17 @@
             <Parameter Name="Costo" Mode="In" Type="Decimal" />
           </FunctionImport>
           <FunctionImport Name="MateriaDelete">
-            <Parameter Name="IdMateria" Mode="In" Type="Int32" />
+          <Parameter Name="IdMateria" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="MateriaGetAll" ReturnType="Collection(ControlEscolarModel.MateriaGetAll_Result)" />
           <FunctionImport Name="MateriaGetById" ReturnType="Collection(ControlEscolarModel.MateriaGetById_Result)">
-            <Parameter Name="IdMateria" Mode="In" Type="Int32" />
+          <Parameter Name="IdMateria" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="MateriasGetAsignadas" ReturnType="Collection(ControlEscolarModel.MateriasGetAsignadas_Result)">
-            <Parameter Name="IdAlumno" Mode="In" Type="Int32" />
+          <Parameter Name="IdAlumno" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="MateriasGetNoAsignadas" ReturnType="Collection(ControlEscolarModel.MateriasGetNoAsignadas_Result)">
-            <Parameter Name="IdAlumno" Mode="In" Type="Int32" />
+          <Parameter Name="IdAlumno" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="MateriaUpdate">
             <Parameter Name="IdMateria" Mode="In" Type="Int32" />
@@ -243,7 +242,7 @@
             <Parameter Name="Costo" Mode="In" Type="Decimal" />
           </FunctionImport>
           <FunctionImport Name="SumaCostoMaterias" ReturnType="Collection(Decimal)">
-            <Parameter Name="IdAlumno" Mode="In" Type="Int32" />
+          <Parameter Name="IdAlumno" Mode="In" Type="Int32" />
           </FunctionImport>
         </EntityContainer>
         <ComplexType Name="AlumnoGetAll_Result">

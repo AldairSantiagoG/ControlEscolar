@@ -9,23 +9,36 @@ namespace PresentationLayer.Controllers
     public class AlumnoController : Controller
     {
         // GET: Alumno
-
+        
         public ActionResult Index()
         {
-            return View();
+            bool redict = Convert.ToBoolean(Session["Alumno"]);
+            if (redict)
+            {
+               return View();
+            }
+            return RedirectToAction("Login", "Login");
+           
         }
         public ActionResult Form(int? idAlumno)
         {
-            if(idAlumno==null)
-                idAlumno = 0;
-            ViewBag.IdAlumno = idAlumno;
-            return View();
+
+            bool redict = Convert.ToBoolean(Session["Alumno"]);
+            if (redict)
+            {
+                if (idAlumno == null)
+                    idAlumno = 0;
+                ViewBag.IdAlumno = idAlumno;
+                return View();
+            }
+            return RedirectToAction("Login", "Login");
+           
         }
         
-        public ActionResult Delete(int idAlumno)
-        {
-            ViewBag.IdAlumno = idAlumno;
-            return View();
-        }
+        //public ActionResult Delete(int idAlumno)
+        //{
+        //    ViewBag.IdAlumno = idAlumno;
+        //    return View();
+        //}
     }
 }

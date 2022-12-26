@@ -3,7 +3,7 @@
     ViewBag.Title = "Form";
 }
 
-<h2>Form</h2>
+<h2>Formulario Alumno</h2>
 
 <input class="hidden" id="idAlumno" value="@ViewBag.IdAlumno" />
 
@@ -62,13 +62,14 @@
         }
 
         $('#btnActualizar').click(function () {
+            var AlumnoD = {
+                IdAlumno: idAlumno,
+                NombreAlumno: $('#txtNombre').val(),
+                ApellidoPaterno: $('#txtApellidoP').val(),
+                ApellidoMaterno: $('#txtApellidoM').val(),
+            }
             if (idAlumno > 0) {
-                var AlumnoD = {
-                    IdAlumno: idAlumno,
-                    NombreAlumno :$('#txtNombre').val(),
-                    ApellidoPaterno : $('#txtApellidoP').val(),
-                    ApellidoMaterno : $('#txtApellidoM').val(),
-                }
+
                 $.ajax({
                     type: 'POST',
                     url: 'http://localhost:6004/Alumno/Update/',
@@ -84,10 +85,36 @@
                     }
                 });
             }
-           
+            else {
+                $.ajax({
+                    type: 'POST',
+                    url: 'http://localhost:6004/Alumno/Add/',
+                    dataType: 'json',
+                    data: AlumnoD,
+                    success: function (response) {
+                        console.log(response);
+                        alert("Alumno registrado");
+                        window.location.href = '@Url.Action("Index", "Alumno")';
+                    },
+                    error: function (ex) {
+                        alert("Ocurrio un problema al registrar el alumno");
+                        window.location.href = '@Url.Action("Index", "Alumno")';
+                    }
+                });
+            }
+
         });
 
-
+        $("#txtNombre, #txtApellidoP,#txtApellidoM").keypress(function (e) {
+            var caracter = e.key;
+            if (!/^[a-zA-Z]*$/g.test(caracter)) {
+                return false;
+            }
+            else {
+                $(this).text("");
+                return true;
+            }
+        });
         /////////////////////////////////
     })
 

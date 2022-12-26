@@ -1,0 +1,205 @@
+﻿
+@{
+    ViewBag.Title = "Asignar";
+
+}
+<input class="hidden" id="idAlumno" value="@ViewBag.IdAlumno" />
+
+<h2>Asignar</h2>
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12" id="alumnoN">
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6">
+            <table class="table table-bordered table-responsive">
+                <thead>
+                    <tr class="text-center">
+                        <td>Quitar</td>
+                        <td>Nombre Materia</td>
+                        <td>Costo</td>
+                    </tr>
+                </thead>
+                <tbody id="materiasAsig">
+                </tbody>
+            </table>
+        </div>
+        <div class="col-lg-6">
+            <table class="table table-bordered table-responsive">
+                <thead>
+                    <tr class="text-center">
+                        <td>Agregar</td>
+                        <td>Nombre Materia</td>
+                        <td>Costo</td>
+                    </tr>
+                </thead>
+                <tbody id="materiasNoAsig">
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-2">
+            <label>Costo Total</label>
+            <input type="text" id="costoTotal" class="form-control" disabled />
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-3.4.1.js"></script>
+
+<script>
+    var ListAsignadas = function (idAlumno) {
+        $.ajax({
+            type: 'GET',
+            url: 'http://localhost:6004/AlumnoMateria/MateriasAsignadas/{id}',
+            dataType: 'json',
+            data: { id: idAlumno },
+            success: function (response) {
+                console.log(response);
+                $.each(response.Objects, function (indice) {
+                    console.log(response.Objects[indice].IdAlumnoMateria)
+                    $('#materiasAsig').append(
+                        '<tr class="text-center">' +
+                        /*'<td><a class="btn btn-primary" href="#" onclick="Asignar(' + response.Objects[indice].IdAlumno + ') ">Asignar</a></td>' +*/
+                        '<td><a class="btn btn-danger" href="#" onclick="Quitar(' + response.Objects[indice].IdAlumnoMateria + ')"> - </a></td>' +
+                        '<td>' + response.Objects[indice].Materia.NombreMateria + '</td>' +
+                        '<td>' + response.Objects[indice].Materia.Costo + '</td>' +
+                        '</tr>'
+                    );
+                });
+
+            },
+            error: function (ex) {
+                $('#costoTotal').val('0');
+            }
+        });
+    }
+
+    var ListNoAsigadas = function (idAlumno) {
+        $.ajax({
+            type: 'GET',
+            url: 'http://localhost:6004/AlumnoMateria/MateriasNoAsignadas/{id}',
+            dataType: 'json',
+            data: { id: idAlumno },
+            success: function (response) {
+                console.log(response);
+                $.each(response.Objects, function (indice) {
+                    console.log(response.Objects[indice].Materia.IdMateria);
+                    $('#materiasNoAsig').append(
+                        '<tr class="text-center">' +
+                        /*'<td><a class="btn btn-primary" href="#" onclick="Asignar(' + response.Objects[indice].IdAlumno + ') ">Asignar</a></td>' +*/
+                        '<td><a class="btn btn-primary" href="#" onclick="Agregar(' + response.Objects[indice].Materia.IdMateria + ')"> + </a></td>' +
+                        '<td>' + response.Objects[indice].Materia.NombreMateria + '</td>' +
+                        '<td>' + response.Objects[indice].Materia.Costo + '</td>' +
+                        '</tr>'
+                    );
+                });
+
+            },
+            error: function (ex) {
+               
+            }
+        });
+    }
+    function Quitar(id) {
+        $('#materiasAsig').empty();
+        $('#materiasNoAsig').empty();
+        $.ajax({
+            type: 'GET',
+            url: 'http://localhost:6004/AlumnoMateria/Delete/{id}',
+            dataType: 'json',
+            data: { idAlumnoMateria: id },
+            success: function (response) {
+                
+                ListAsignadas($('#idAlumno').val());
+                ListNoAsigadas($('#idAlumno').val());
+                costoTotal($('#idAlumno').val());
+            },
+            error: function (ex) {
+                alert('Failed.' + ex);
+            }
+        });
+    }
+
+    function Agregar(id) {
+
+        var AlumnoMateria = {
+            Materia: {
+                IdMateria: id
+            },
+            Alumno: {
+                IdAlumno: $('#idAlumno').val()
+            }
+        }
+        $('#materiasAsig').empty();
+        $('#materiasNoAsig').empty();
+        $.ajax({
+            type: 'POST',
+            url: 'http://localhost:6004/AlumnoMateria/Add/',
+            dataType: 'json',
+            data: AlumnoMateria,
+            success: function (response) {
+                ListNoAsigadas($('#idAlumno').val());
+                ListAsignadas($('#idAlumno').val());
+                costoTotal($('#idAlumno').val());
+            },
+            error: function (ex) {
+                alert('Failed.' + ex);
+            }
+        });
+    }
+
+    var costoTotal = function (idAlumno) {
+        $.ajax({
+            type: 'GET',
+            url: 'http://localhost:6004/Alumno/Costo/{id}',
+            dataType: 'json',
+            data: { id: idAlumno },
+            success: function (response) {
+                $('#costoTotal').val(response.Object);
+            },
+            error: function (ex) {
+                $('#costoTotal').val('0');
+            }
+        });
+    }
+
+    $(document).ready(function () {
+        /////////////////////////////////
+
+        var idAlumno = $('#idAlumno').val();
+        console.log(idAlumno);
+        var NombreAlumno = function (idAlumno) {
+            $.ajax({
+                type: 'GET',
+                url: 'http://localhost:6004/Alumno/GetById/{id}',
+                dataType: 'json',
+                data: { id: idAlumno },
+                success: function (response) {
+                    $('#alumnoN').append(
+                        '<h4>'+response.Object.NombreAlumno + ' ' + response.Object.ApellidoPaterno + ' ' + response.Object.ApellidoMaterno +'</h4>'
+                    );
+
+                },
+                error: function (ex) {
+                   
+                }
+            });
+        }
+
+        NombreAlumno(idAlumno);
+
+        ListAsignadas(idAlumno);
+        ListNoAsigadas(idAlumno);
+
+       
+        costoTotal(idAlumno);
+        /////////////////////////////////
+    });
+   
+</script>

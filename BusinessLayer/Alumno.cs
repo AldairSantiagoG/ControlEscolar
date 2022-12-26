@@ -235,7 +235,7 @@ namespace BusinessLayer
                     if (query != null)
                     {
                         var costo = query.Value;
-                        result.Object= costo;
+                        result.Object = costo;
                         result.Correct = true;
                     }
                     else

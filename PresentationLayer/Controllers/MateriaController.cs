@@ -11,7 +11,27 @@ namespace PresentationLayer.Controllers
         // GET: Materia
         public ActionResult Index()
         {
-            return View();
+            bool redict = Convert.ToBoolean(Session["Alumno"]);
+            if (redict)
+            {
+
+                return View();
+            }
+            return RedirectToAction("Login", "Login");
+            
+        }
+        public ActionResult Form(int? idMateria)
+        {
+            bool redict = Convert.ToBoolean(Session["Alumno"]);
+            if (redict)
+            {
+                if (idMateria == null)
+                    idMateria = 0;
+                ViewBag.IdMateria = idMateria;
+                return View();
+            }
+            return RedirectToAction("Login", "Login");
+            
         }
     }
 }

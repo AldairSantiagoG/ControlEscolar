@@ -9,8 +9,9 @@ namespace PresentationLayer.Controllers
     public class LoginController : Controller
     {
         // GET: Login
-        public ActionResult Index()
+        public ActionResult Login()
         {
+            Session["Alumno"] = false;
             return View();
         }
     }

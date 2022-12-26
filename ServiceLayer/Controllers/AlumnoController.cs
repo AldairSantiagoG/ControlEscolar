@@ -71,7 +71,7 @@ namespace ServiceLayer.Controllers
                 return NotFound();
             }
         }
-        [System.Web.Http.HttpDelete]
+        [System.Web.Http.HttpGet]
         [Route("Alumno/Delete/{id}")]
         public IHttpActionResult Delete(int id)
         {
@@ -88,9 +88,9 @@ namespace ServiceLayer.Controllers
 
         [System.Web.Http.HttpGet]
         [Route("Alumno/Costo/{id}")]
-        public IHttpActionResult Costo(int idAlumno)
+        public IHttpActionResult Costo(int id)
         {
-            ModelLayer.Result result = BusinessLayer.Alumno.SumaCosto(idAlumno);
+            ModelLayer.Result result = BusinessLayer.Alumno.SumaCosto(id);
             if (result.Correct)
             {
                 return Ok(result);
@@ -102,7 +102,7 @@ namespace ServiceLayer.Controllers
         }
 
 
-        [System.Web.Http.HttpGet]
+        [System.Web.Http.HttpPost]
         [Route("Alumno/Login")]
         public IHttpActionResult Login(ModelLayer.Alumno alumno)
         {

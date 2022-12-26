@@ -6,34 +6,37 @@
 <h2>Alumnos</h2>
 
 <div class="container">
+    <div class="row" >
+        <div class="col-lg-12">
+            
+            <input type="button" id="nuevoAlumno" class=" btn btn-success" value="Ingresa nuevo alumno"/><br />
+        </div>
+    </div>
     <div class="row">
         <div class="col-lg-12" id="alumnoCont">
 
             @*<table class="table table-bordered table-responsive">
-                <thead>
-                    <tr class="text-center">
-                        <td>Editar</td>
-                        <td class="hidden">IdAlumno</td>
-                        <td>Nombre</td>
-                        <td>Apellido Paterno</td>
-                        <td>Apellido Materno</td>
-                        <td>Eliminar</td>
-                    </tr>
-                </thead>
-                <tbody id="tbodyAlumno">
+                    <thead>
+                        <tr class="text-center">
+                            <td>Editar</td>
+                            <td class="hidden">IdAlumno</td>
+                            <td>Nombre</td>
+                            <td>Apellido Paterno</td>
+                            <td>Apellido Materno</td>
+                            <td>Eliminar</td>
+                        </tr>
+                    </thead>
+                    <tbody id="tbodyAlumno">
 
-                </tbody>
-            </table>*@
+                    </tbody>
+                </table>*@
         </div>
     </div>
-    <div class="row">
-        <div class="col-lg-12">
 
-        </div>
-    </div>
 
 </div>
 <script src="~/Scripts/jquery-3.4.1.js"></script>
+<link href="~/Scripts/Cards/Cards.css" rel="stylesheet" />
 
 <script>
 
@@ -51,17 +54,17 @@
                     console.log(response);
                     $.each(response.Objects, function (indice) {
                         $('#alumnoCont').append(
-                            "<div class='card col-lg-1' style='width: 18rem;  height:22rem; '>" +
-                            "<img class='card-img-top' style='width: 100px; height:100px;' src=" +
+                            "<div class='card col-lg-1' style='width: 18rem;  height:23rem; '>" +
+                            "<img class='card-img-top' style='width: 95px; height:95px;' src=" +
                             "'/Imagenes/Icono.png'" +
                             "alt='Card image cap' >" + "<div class='card-body'>" +
                             "<h5 class='card-title'> <b>Nombre: </b>" +
                             response.Objects[indice].NombreAlumno + " " + response.Objects[indice].ApellidoPaterno +
-                            " " + response.Objects[indice].ApellidoMaterno+ "</h5>" +
+                            " " + response.Objects[indice].ApellidoMaterno + "</h5>" +
                             "<div class='card-text'> <b>Editar </b>" +
                             "<a class='btn btn-warning glyphicon glyphicon-edit' href='#' onclick='Editar(" + response.Objects[indice].IdAlumno + ")'> </a>" +
-                            "<b>Eliminar </b>"+"<a class='btn btn-danger glyphicon glyphicon-trash' href='@@Url.Action('Delete', 'Alumno', new { 'IdAlumno' = alumno.IdAlumno })' onclick='return confirm(Estas seguro que deseas eliminar este registro?);'></a>"+
-                            +
+                            "</br><b>Eliminar </b>" +
+                            "<a class='btn btn-danger glyphicon glyphicon-trash' href='#' onclick='Borrar(" + response.Objects[indice].IdAlumno + ")'></a>" +
                             "</div>" + "</div>" + "</div >"
                         );
                     });
@@ -72,12 +75,15 @@
             });
         }
 
-
-
-
         LlenarAlumnos();
-         /////////////////////////////////
-    })
+
+        $('#nuevoAlumno').click(function () {
+            window.location.href = '@Url.Action("Form", "Alumno")';
+        });
+
+        
+        /////////////////////////////////
+    });
 
     function Editar(id) {
             //var valor = $(this).val();
@@ -85,5 +91,26 @@
         window.location.href = '@Url.Action("Form", "Alumno")?IdAlumno=' + id;
            // window.URL("/Alumno/Form/", new  id);
 
+    }
+    function Borrar(id)
+    {
+        var valor = confirm("Estas seguro que deseas eliminar este registro ?");
+        console.log(valor);
+        if (valor) {
+            $.ajax({
+                type: 'GET',
+                url: 'http://localhost:6004/Alumno/Delete/{id}',
+                dataType: 'json',
+                data: {id: id},
+                success: function (response) {
+                    alert("El alumno se elimino correctamente");
+                    window.location.href = '@Url.Action("Index", "Alumno")';
+                },
+                error: function (ex) {
+                    alert("Hubo un error al elimnar el alumno");
+                }
+            });
         }
+
+    }
 </script>

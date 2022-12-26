@@ -8,7 +8,7 @@ namespace ModelLayer
 {
     public class AlumnoMateria
     {
-        public int IdAlumnoMateria { get; set; }
+        public int? IdAlumnoMateria { get; set; }
         public ModelLayer.Alumno Alumno { get; set; }
         public ModelLayer.Materia Materia { get; set; }
         public List<object> AlumnoMaterias { get; set; }

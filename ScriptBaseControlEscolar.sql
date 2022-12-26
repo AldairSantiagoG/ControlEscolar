@@ -205,7 +205,7 @@ AS
 GO
 
 
-CREATE PROCEDURE MateriasGetNoAsignadas
+CREATE PROCEDURE MateriasGetNoAsignadas-- 1
 @IdAlumno INT
 AS
 	SELECT Materia.IdMateria
@@ -257,3 +257,5 @@ GO
 --MateriaGetAll
 --AlumnoMateriasAdd 2,3
 --AlumnoMateriasAdd 2,4
+
+-- MateriasGetNoAsignadas 2
