@@ -68,5 +68,24 @@ namespace ServiceLayer.Controllers
                 return NotFound();
             }
         }
+
+
+
+        [HttpGet]
+        [Route("AlumnoMateria/Ejemplo/")]
+        public IHttpActionResult Ejemplo()
+        {
+            List<ModelLayer.Alumno> alumnoM = new List<ModelLayer.Alumno>();
+
+            ModelLayer.Result result = BusinessLayer.AlumnoMateria.Ejemplo(alumnoM);
+            if (result.Correct)
+            {
+                return Ok(result);
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
     }
 }

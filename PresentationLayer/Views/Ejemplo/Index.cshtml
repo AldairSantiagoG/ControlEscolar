@@ -1,0 +1,46 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+
+<script src="~/Scripts/jquery-3.4.1.js"></script>
+
+<script>
+
+    $(document).ready(function () {
+        $.ajax({
+            type: 'GET',
+            url: 'http://localhost:6004/AlumnoMateria/Ejemplo/',
+            dataType: 'json',
+            data: {},
+            success: function (response) {
+                console.log(response);
+
+                alert("RESULTADO: " + response);
+                //$.each(response.Objects, function (indice) {
+                //    $('#alumnoCont').append(
+                //        "<div class='card col-lg-1' style='width: 18rem;  height:23rem; '>" +
+                //        "<img class='card-img-top' style='width: 95px; height:95px;' src=" +
+                //        "'/Imagenes/Icono.png'" +
+                //        "alt='Card image cap' >" + "<div class='card-body'>" +
+                //        "<h5 class='card-title'> <b>Nombre: </b>" +
+                //        response.Objects[indice].NombreAlumno + " " + response.Objects[indice].ApellidoPaterno +
+                //        " " + response.Objects[indice].ApellidoMaterno + "</h5>" +
+                //        "<div class='card-text'> <b>Editar </b>" +
+                //        "<a class='btn btn-warning glyphicon glyphicon-edit' href='#' onclick='Editar(" + response.Objects[indice].IdAlumno + ")'> </a>" +
+                //        "</br><b>Eliminar </b>" +
+                //        "<a class='btn btn-danger glyphicon glyphicon-trash' href='#' onclick='Borrar(" + response.Objects[indice].IdAlumno + ")'></a>" +
+                //        "</div>" + "</div>" + "</div >"
+                //    );
+                //});
+            },
+            error: function (ex) {
+                alert('Failed.' + ex);
+            }
+        });       
+    })
+
+</script>

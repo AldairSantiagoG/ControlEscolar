@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DataLayer;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -157,5 +158,30 @@ namespace BusinessLayer
             return result;
         }
 
+
+
+        public static ModelLayer.Result Ejemplo(List<ModelLayer.Alumno> alumnos)
+        {
+            ModelLayer.Result result = new ModelLayer.Result();
+            result.Objects = new List<object>();   
+            
+            try
+            {
+                using (DataLayer.ControlEscolarEntities context = new DataLayer.ControlEscolarEntities())
+                {
+                    result.Objects.Add(BusinessLayer.Alumno.GetAll());
+                    result.Objects.Add(BusinessLayer.Materia.GetAll());
+
+                    result.Correct=true;
+                }
+            }
+            catch (Exception ex)
+            {
+                result.Correct = false;
+                result.Ex = ex;
+            }
+
+            return result;
+        }
     }
 }
